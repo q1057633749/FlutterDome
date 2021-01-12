@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MyPage extends StatefulWidget {
+class LivePage extends StatefulWidget {
   @override
-  _MyPageState createState() => _MyPageState();
+  _livePageState createState() => _livePageState();
 }
 
-class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
+class _livePageState extends State<LivePage> with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
   @override
@@ -22,8 +22,6 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('我的'),
-    );
+    return Container();
   }
 }

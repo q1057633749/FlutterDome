@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MyPage extends StatefulWidget {
+class DynameicPage extends StatefulWidget {
   @override
-  _MyPageState createState() => _MyPageState();
+  _dynameicPageState createState() => _dynameicPageState();
 }
 
-class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
+class _dynameicPageState extends State<DynameicPage> with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
   @override
@@ -19,11 +19,9 @@ class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
     _controller.dispose();
     super.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('我的'),
-    );
+    return Container();
   }
 }
