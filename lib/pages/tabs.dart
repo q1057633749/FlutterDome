@@ -22,6 +22,13 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
   int lastTime = 0;
   List _tabbarList = [HomePage(), DynameicPage(), null, LivePage(), MyPage()];
   List<Widget> _tabList = [HomePage(), DynameicPage(), LivePage(), MyPage()];
+  List TabbarList = [
+    {'name': '首页', 'img': "home"},
+    {'name': '直播', 'img': 'live'},
+    {'name':'','img':'home'},
+    {'name': '动态', 'img': 'dynameic'},
+    {'name': '我的', 'img': 'my'}
+  ];
   int page = 0;
   PageController pageController;
 
@@ -105,83 +112,49 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            GestureDetector(
-                onTap: () {
-                  onTap(0);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Align(
-                        widthFactor: _currentIndex == 0 ? 0.3 : 1,
-                        heightFactor: _currentIndex == 0 ? 0.2 : 1,
-                        alignment: _currentIndex == 0
-                            ? Alignment(0.0, 0.6)
-                            : Alignment(0.0, 0.0),
-                        child: Image.asset(
-                            _currentIndex == 0
-                                ? 'images/is_home.png'
-                                : 'images/home.png',
-                            width:
-                                _currentIndex == 0 ? isBtmWidth : bottomWidth,
-                            height: _currentIndex == 0
-                                ? isBtmHeight
-                                : bottomHeight)),
-                    Text("首页",
-                        style: TextStyle(
-                            color: _currentIndex == 0
-                                ? Color(0xFF7C4DF9)
-                                : Color(0xFF999999)))
-                  ],
-                )),
-            GestureDetector(
-                onTap: () {
-                  onTap(1);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset('images/home.png',
-                        width: bottomWidth, height: bottomHeight),
-                    Text("首页", style: TextStyle(color: Color(0xFF999999)))
-                  ],
-                )),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.home, color: Colors.transparent),
-//                Text("首页", style: TextStyle(color: Color(0xFF999999)))
-              ],
-            ),
-            GestureDetector(
-                onTap: () {
-                  onTap(3);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset('images/home.png',
-                        width: bottomWidth, height: bottomHeight),
-                    Text("首页", style: TextStyle(color: Color(0xFF999999)))
-                  ],
-                )),
-            GestureDetector(
-                onTap: () {
-                  onTap(4);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset('images/home.png',
-                        width: bottomWidth, height: bottomHeight),
-                    Text("首页", style: TextStyle(color: Color(0xFF999999)))
-                  ],
-                )),
-          ],
+          children: BtnList(),
         ),
       ),
     );
+  }
+
+  List<Widget> BtnList(){
+    List<Widget> list = new List();
+    for(var i = 0;i<TabbarList.length;i++){
+      list.add(GestureDetector(
+          onTap: () {
+            onTap(i);
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedSize(
+                  vsync: this,
+                  duration: Duration(milliseconds: 500),
+                  child:Align(
+                  widthFactor: _currentIndex == i ? 0.3 : 1,
+                  heightFactor: _currentIndex == i ? 0.3 : 1,
+                  alignment: _currentIndex == i
+                      ? Alignment(0.0, 0.5)
+                      : Alignment(0.0, 0.0),
+                  child:Image.asset(
+                      _currentIndex == i
+                          ? 'images/is_'+ TabbarList[i]['img'] +'.png'
+                          : 'images/'+ TabbarList[i]['img'] +'.png',
+                      width:
+                      _currentIndex == i ? isBtmWidth : bottomWidth,
+                      height: _currentIndex == i
+                          ? isBtmHeight
+                          : bottomHeight))),
+              Text(TabbarList[i]['name'],
+                  style: TextStyle(
+                      color: _currentIndex == i
+                          ? Color(0xFF7C4DF9)
+                          : Color(0xFF999999)))
+            ],
+          )));
+    }
+    return list;
   }
 
   Widget BtnBarStyle2() {
