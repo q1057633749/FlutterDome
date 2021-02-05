@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
+
 }
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   AnimationController _controller;
-
   @override
   void initState() {
     _controller = AnimationController(vsync: this);
@@ -22,8 +24,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child:Text('首页')
-    );
+    return AnnotatedRegion(child: Container(
+        child:Text('首页')
+    ), value: SystemUiOverlayStyle.light) ;
   }
 }

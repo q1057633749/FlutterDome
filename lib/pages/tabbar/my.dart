@@ -1,29 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:flutterapp/provider/appState.dart';
 
-class MyPage extends StatefulWidget {
-  @override
-  _MyPageState createState() => _MyPageState();
-}
 
-class _MyPageState extends State<MyPage> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-
-  @override
-  void initState() {
-    _controller = AnimationController(vsync: this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('我的'),
-    );
+   AppStateData notifier = Provider.of(context);
+   notifier.changeBarState;
+   return AnnotatedRegion(
+         value:SystemUiOverlayStyle.dark,
+         child:Scaffold(
+           backgroundColor: Colors.white,
+           body:Column(
+             children: [
+               Container(
+                 child: Column(
+                   children: [
+                     Container(
+                       width:MediaQuery.of(context).size.width,
+                       height: 404,
+                       child: Row(
+                         children: [
+
+
+                         ],
+                       ),
+                       decoration: BoxDecoration(
+                           image: DecorationImage(
+                             image: AssetImage(
+                                 'images/my/my_head.png'),
+                             fit: BoxFit.cover,
+                           )
+                       ),
+                     )
+                   ],
+                 ),
+               )
+             ],
+          ),
+         floatingActionButton:FloatingActionButton(
+           onPressed: notifier.changeBarState,
+           tooltip: 'Increment',
+           child: Icon(Icons.add),
+         ),
+       ),
+   );
+  }
+  Widget MyModel(){
+    return Text('321');
   }
 }

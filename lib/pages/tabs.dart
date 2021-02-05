@@ -67,9 +67,9 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
           return null;
         },
         child: Scaffold(
-            appBar: AppBar(
-              title: Text('flutterDome'),
-            ),
+//            appBar: AppBar(
+//              title: Text('flutterDome'),
+//            ),
             body: PageView(
               children: _tabList,
               onPageChanged: onPageChanged,
