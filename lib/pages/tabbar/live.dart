@@ -22,6 +22,8 @@ class _livePageState extends State<LivePage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Text('live'),
+    );
   }
 }

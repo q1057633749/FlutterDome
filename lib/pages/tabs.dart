@@ -20,8 +20,8 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
   double isBtmHeight = 80.0;
   int _currentIndex = 0;
   int lastTime = 0;
-  List _tabbarList = [HomePage(), DynameicPage(), null, LivePage(), MyPage()];
-  List<Widget> _tabList = [HomePage(), DynameicPage(), LivePage(), MyPage()];
+  List _tabbarList = [HomePage(), LivePage(), null, DynameicPage(), MyPage()];
+  List<Widget> _tabList = [HomePage(),LivePage(), DynameicPage(), MyPage()];
   List TabbarList = [
     {'name': '首页', 'img': "home"},
     {'name': '直播', 'img': 'live'},
@@ -86,7 +86,7 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
                 foregroundColor: Colors.amberAccent,
                 backgroundColor: Color(0xFF7C4DF9),
                 child: ClipOval(
-                    child: Image.asset('images/main_start.png',
+                    child: Image.asset('images/tabbar/main_start.png',
                         width: 100.0, height: 100.0)),
               ),
             ),
@@ -139,8 +139,8 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
                       : Alignment(0.0, 0.0),
                   child:Image.asset(
                       _currentIndex == i
-                          ? 'images/is_'+ TabbarList[i]['img'] +'.png'
-                          : 'images/'+ TabbarList[i]['img'] +'.png',
+                          ? 'images/tabbar/is_'+ TabbarList[i]['img'] +'.png'
+                          : 'images/tabbar/'+ TabbarList[i]['img'] +'.png',
                       width:
                       _currentIndex == i ? isBtmWidth : bottomWidth,
                       height: _currentIndex == i
@@ -149,8 +149,8 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
               Text(TabbarList[i]['name'],
                   style: TextStyle(
                       color: _currentIndex == i
-                          ? Color(0xFF7C4DF9)
-                          : Color(0xFF999999)))
+                          ? Theme.of(context).tabBarTheme.labelColor
+                          : Theme.of(context).tabBarTheme.unselectedLabelColor))
             ],
           )));
     }
@@ -160,8 +160,8 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
   Widget BtnBarStyle2() {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Color(0xFF7C4DF9),
-      unselectedItemColor: Color(0xFF999999),
+      selectedItemColor: Theme.of(context).tabBarTheme.labelColor,
+      unselectedItemColor: Theme.of(context).tabBarTheme.unselectedLabelColor,
       backgroundColor: Colors.white,
       currentIndex: _currentIndex,
       onTap: (int index) => {
@@ -177,50 +177,50 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
       items: [
         BottomNavigationBarItem(
             title: Text('首页'),
-            icon: Image.asset('images/home.png',
+            icon: Image.asset('images/tabbar/home.png',
                 width: bottomWidth, height: bottomHeight),
             activeIcon: Align(
               widthFactor: 0.5,
               heightFactor: 0.2,
               alignment: Alignment(0.0, 0.6),
-              child: Image.asset('images/is_home.png',
+              child: Image.asset('images/tabbar/is_home.png',
                   height: isBtmWidth, width: isBtmHeight),
             )),
         BottomNavigationBarItem(
             title: Text('直播'),
-            icon: Image.asset('images/live.png',
+            icon: Image.asset('images/tabbar/live.png',
                 width: bottomWidth, height: bottomHeight),
             activeIcon: Align(
               widthFactor: 0.5,
               heightFactor: 0.2,
               alignment: Alignment(0.0, 0.6),
-              child: Image.asset('images/is_live.png',
+              child: Image.asset('images/tabbar/is_live.png',
                   height: isBtmWidth, width: isBtmHeight),
             )),
         BottomNavigationBarItem(
             title: Text(''),
-            icon: Image.asset('images/dynameic.png',
+            icon: Image.asset('images/tabbar/dynameic.png',
                 width: bottomWidth, height: bottomHeight)),
         BottomNavigationBarItem(
             title: Text('动态'),
-            icon: Image.asset('images/dynameic.png',
+            icon: Image.asset('images/tabbar/dynameic.png',
                 width: bottomWidth, height: bottomHeight),
             activeIcon: Align(
               widthFactor: 0.5,
               heightFactor: 0.2,
               alignment: Alignment(0.0, 0.6),
-              child: Image.asset('images/is_dynameic.png',
+              child: Image.asset('images/tabbar/is_dynameic.png',
                   height: isBtmWidth, width: isBtmHeight),
             )),
         BottomNavigationBarItem(
           title: Text('我的'),
-          icon: Image.asset('images/my.png',
+          icon: Image.asset('images/tabbar/my.png',
               width: bottomWidth, height: bottomHeight),
           activeIcon: Align(
               widthFactor: 0.5,
               heightFactor: 0.2,
               alignment: Alignment(0.0, 0.6),
-              child: Image.asset('images/is_my.png',
+              child: Image.asset('images/tabbar/is_my.png',
                   height: isBtmWidth, width: isBtmHeight)),
         )
       ],

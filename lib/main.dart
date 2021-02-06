@@ -4,6 +4,8 @@ import 'pages/router/router.dart';
 import 'pages/tabs.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/provider/appState.dart';
+import 'package:flutterapp/common/theme.dart';
+import 'package:flutterapp/provider/user.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,25 +16,22 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    if (Theme
-        .of(context)
-        .platform == TargetPlatform.android) {
+    if (Theme.of(context).platform == TargetPlatform.android) {
       // android 平台
       SystemUiOverlayStyle _style =
-      SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+          SystemUiOverlayStyle(statusBarColor: Colors.transparent);
       SystemChrome.setSystemUIOverlayStyle(_style);
     }
     return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
+        theme: ThemeStyle(),
         onGenerateRoute: onGenerateRoute,
-        home:ChangeNotifierProvider(
-        create: (_) => AppStateData(),
-        child:  TabsPage()),
-      );
+        home: MultiProvider(
+            providers: [
+              Provider<AppStateData>(create: (_) => AppStateData()),
+              Provider<UserData>(create: (_) => UserData())
+            ],
+            child: TabsPage()));
   }
 }
