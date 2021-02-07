@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 
 
 class UserData extends ChangeNotifier{
-  String _userInfo = '我是美少女';
+  bool _isLogin = false;
+  Map _userInfo = {
+    'user_name':'我是美少女'
+  };
 
-   String get userInfo => _userInfo;
+  bool get isLogin => _isLogin;
+  Map get userInfo => _userInfo;
 
+  void setLogin(){
+    _isLogin = true;
+  }
 
-  void setUserInfo(userInfos) {
-  print(_userInfo);
-    if(_userInfo == '我是美少女'){
-      _userInfo = '我是帅哥';
-    }else{
-      _userInfo ='我是美少女';
-    }
+  void setUserInfo(userMap) {
+      _userInfo = userMap;
     notifyListeners();//要更新UI记得调用这个方法
   }
 }

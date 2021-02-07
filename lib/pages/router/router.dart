@@ -4,9 +4,10 @@ import '../tabbar/home.dart';
 import '../tabbar/my.dart';
 import '../tabbar/dynameic.dart';
 import '../tabbar/live.dart';
+import '../sign/login.dart';
 
 final routes={
-    '/':(context,{arguments})=>TabsPage(),
+    '/':(context,{arguments})=>LoginPage(),
     '/HomePage':(context,{arguments})=>HomePage(),
     '/DynameicPage':(context,{arguments})=>DynameicPage(),
     '/LivePage':(context,{arguments})=>LivePage(),

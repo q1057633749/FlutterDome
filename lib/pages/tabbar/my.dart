@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterapp/provider/appState.dart';
 import 'package:flutterapp/provider/user.dart';
+import 'package:flutterapp/provider/appState.dart';
 
 class MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double double_statusBarHeight = MediaQuery.of(context).padding.top;
     return AnnotatedRegion(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
@@ -23,7 +22,7 @@ class MyPage extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: double_statusBarHeight,
+                          height: context.watch<AppStateData>().double_statusBarHeight,
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(15.5, 20, 11, 10),
@@ -52,7 +51,7 @@ class MyPage extends StatelessWidget {
                                       children: [
                                         Row(children: [
                                           Text(
-                                            '${context.watch<UserData>().userInfo}',
+                                            '${context.watch<UserData>().userInfo['user_name']}',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headline1,
@@ -94,7 +93,7 @@ class MyPage extends StatelessWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => context.read<UserData>().setUserInfo('我是帅哥'),
+          onPressed:() => context.read<UserData>().setUserInfo({'user_name':'我是帅哥'}),
           tooltip: 'Increment',
           child: Icon(Icons.add),
         ),
