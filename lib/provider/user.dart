@@ -12,10 +12,14 @@ class UserData extends ChangeNotifier{
 
   void setLogin(){
     _isLogin = true;
+    print(isLogin);
   }
 
   void setUserInfo(userMap) {
       _userInfo = userMap;
+      if(!_isLogin){
+        setLogin();
+      }
     notifyListeners();//要更新UI记得调用这个方法
   }
 }

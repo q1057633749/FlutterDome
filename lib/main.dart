@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:flutterapp/provider/appState.dart';
 import 'package:flutterapp/common/theme.dart';
 import 'package:flutterapp/provider/user.dart';
+import 'package:flutterapp/common/actions.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -29,6 +30,13 @@ class MyAppState extends State<MyApp> {
           SystemUiOverlayStyle(statusBarColor: Colors.transparent);
       SystemChrome.setSystemUIOverlayStyle(_style);
     }
+    readBoolData('isLoginState').then((value) => {
+      if(value){
+        context.read<UserData>().setLogin()
+      }
+    });
+
+
     return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
@@ -62,12 +70,4 @@ class MyAppState extends State<MyApp> {
   }
 }
 
-class ColorUtil {
-  /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
-  static Color fromHex(String hexString) {
-    final buffer = StringBuffer();
-    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
-    buffer.write(hexString.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
-  }
-}
+

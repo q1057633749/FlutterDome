@@ -83,6 +83,7 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(45), color: Colors.white),
               child: FloatingActionButton(
+                onPressed: ()=>{},
                 foregroundColor: Colors.amberAccent,
                 backgroundColor: Color(0xFF7C4DF9),
                 child: ClipOval(
