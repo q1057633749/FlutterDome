@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ class MyPage extends StatelessWidget {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(248, 248, 248, 1),
         body: Column(
           children: [
             Container(
@@ -18,7 +19,8 @@ class MyPage extends StatelessWidget {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 404,
+                    padding: EdgeInsets.only(bottom: 10),
+//                    height: 404,
                     child: Column(
                       children: [
                         SizedBox(
@@ -32,8 +34,8 @@ class MyPage extends StatelessWidget {
                             children: [
                               ClipOval(
                                 child: Container(
-                                  width: 68.5,
-                                  height: 68.5,
+                                  width: Adapt.px(68.5),
+                                  height: Adapt.px(68.5),
                                   child:
                                       Image.asset('images/test/my_avatar.gif')
                                 ),
@@ -41,7 +43,7 @@ class MyPage extends StatelessWidget {
                               Expanded(
                                 flex: 1,
                                 child: Container(
-                                  height: 68.5,
+                                  height: Adapt.px(68.5),
                                   margin: EdgeInsets.only(left: 16.5),
                                   child: Column(
                                       mainAxisAlignment:
@@ -60,8 +62,8 @@ class MyPage extends StatelessWidget {
                                               margin: EdgeInsets.only(left: 5),
                                               child: Image.asset(
                                                 'images/my/girl.png',
-                                                width: 16.0,
-                                                height: 16.0,
+                                                width: Adapt.px(16.0),
+                                                height: Adapt.px(16.0),
                                               )),
                                         ]),
                                         Row(children: []),
@@ -79,29 +81,233 @@ class MyPage extends StatelessWidget {
                             ],
                           ),
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              height: Adapt.px(56.5),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('20',style: Theme.of(context).textTheme.bodyText1,),
+                                  SizedBox(height: Adapt.px(5.0),),
+                                  Text('关注',style: Theme.of(context).textTheme.headline6,)
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: Adapt.px(56.5),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('20',style: Theme.of(context).textTheme.bodyText1,),
+                                  SizedBox(height: Adapt.px(5.0),),
+                                  Text('粉丝',style: Theme.of(context).textTheme.headline6,)
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: Adapt.px(56.5),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('20',style: Theme.of(context).textTheme.bodyText1,),
+                                  SizedBox(height: Adapt.px(5.0),),
+                                  Text('动态',style: Theme.of(context).textTheme.headline6,)
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10.0),
+                          width: Adapt.px(355.0),
+                          height:Adapt.px(104.0),
+                          decoration:BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8)
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children:[
+                              Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children:[
+                                    Image.asset('images/my/message.png',width: Adapt.px(47.0),height: Adapt.px(47.0),),
+                                    SizedBox(height: 8,),
+                                    Text('消息')
+                                  ]
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:[
+                                      Image.asset('images/my/wallet.png',width: Adapt.px(47.0),height: Adapt.px(47.0),),
+                                      SizedBox(height: 8,),
+                                      Text('钱包')
+                                    ]
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:[
+                                      Image.asset('images/my/order.png',width: Adapt.px(47.0),height: Adapt.px(47.0),),
+                                      SizedBox(height: 8,),
+                                      Text('明细')
+                                    ]
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:[
+                                      Image.asset('images/my/shop.png',width: Adapt.px(47.0),height: Adapt.px(47.0),),
+                                      SizedBox(height: 8,),
+                                      Text('商城')
+                                    ]
+                                ),
+                              )
+                            ]
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                width:Adapt.px(173.0),
+                                height: Adapt.px(74.0),
+                                padding: EdgeInsets.all(18),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children:[
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('我的视频',style: TextStyle(
+                                          fontSize: 17.0,
+                                          color: Color.fromRGBO(51, 51, 51, 1),
+                                          fontWeight: FontWeight.bold
+                                        ),),
+                                        Text('查看视频作品',style: TextStyle(
+                                          fontSize: 12.0,
+                                          color: Color.fromRGBO(153, 153, 153, 1)
+                                        ),)
+                                      ],
+                                    ),
+                                    Image.asset('images/my/video.png',width: Adapt.px(25.0),height: Adapt.px(25.0),)
+                                  ]
+                                ),
+                                decoration: BoxDecoration(
+                                  color:Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0)
+                                ),
+                              ),
+                              Container(
+                                width:173.0,
+                                height: 74.0,
+                                padding: EdgeInsets.all(18),
+                                child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children:[
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('我的收益',style: TextStyle(
+                                              fontSize: 17.0,
+                                              color: Color.fromRGBO(51, 51, 51, 1),
+                                              fontWeight: FontWeight.bold
+                                          ),),
+                                          Text('提现、收益兑换',style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Color.fromRGBO(153, 153, 153, 1)
+                                          ),)
+                                        ],
+                                      ),
+                                      Image.asset('images/my/earnings.png',width: Adapt.px(25.0),height: Adapt.px(25.0),)
+                                    ]
+                                ),
+                                decoration: BoxDecoration(
+                                    color:Colors.white,
+                                    borderRadius: BorderRadius.circular(8.0)
+                                ),
+                              )
+                            ],
+                          ),
+                        )
                       ],
                     ),
+
                     decoration: BoxDecoration(
                         image: DecorationImage(
                       image: AssetImage('images/my/my_head.png'),
                       fit: BoxFit.cover,
                     )),
+                  ),
+                  Container(
+                    child: Column(
+                      children: [
+                        Image.asset('images/my/friend.png',width: Adapt.px(355.0),height:Adapt.px(95.0)),
+                        Container(
+                          margin: EdgeInsets.only(top: Adapt.px(14.0)),
+                          child: MyModel(),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
             )
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed:() => context.read<UserData>().setUserInfo({'user_name':'我是帅哥'}),
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        ),
+        )
       ),
     );
   }
 
   Widget MyModel() {
-    return Text('321');
+    return Container(
+      width: Adapt.px(355.0),
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(19.0, 17.0, 18.0, 22.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0)
+            ),
+            child: Column(
+              children: [
+                Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:[
+                      Image.asset('images/my/dynamic.png',width:Adapt.px(20.0),height:Adapt.px(20.0),fit: BoxFit.cover,),
+                      SizedBox(width:Adapt.px(8.0),),
+                      Text('我的动态',style: TextStyle(
+                        fontSize:Adapt.px(15.0),
+                        color: Color.fromRGBO(51, 51, 51, 1)
+                      ),),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          child: Icon(Icons.arrow_forward_ios,size: 15.0,),
+                        ),
+                      )
+                    ]
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

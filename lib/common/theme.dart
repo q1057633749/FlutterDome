@@ -36,6 +36,16 @@ import 'package:flutter/material.dart';
               fontSize: 18,
               fontWeight: FontWeight.w400
           ),
+          headline6: TextStyle(
+              color:Color(0xff666666),
+              fontSize: 12,
+              fontWeight: FontWeight.w400
+          ),
+          bodyText1: TextStyle(
+              color:Color(0xff333333),
+              fontSize: 18,
+              fontWeight: FontWeight.bold
+          )
       )
     );
 }
