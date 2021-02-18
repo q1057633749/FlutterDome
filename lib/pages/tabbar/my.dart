@@ -276,7 +276,7 @@ class MyPage extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(19.0, 17.0, 18.0, 22.0),
+            padding: EdgeInsets.fromLTRB(19.0, 8.0, 18.0, 8.0),
             decoration: BoxDecoration(
               color: Colors.white,
                 borderRadius: BorderRadius.circular(8.0)
@@ -284,6 +284,7 @@ class MyPage extends StatelessWidget {
             child: Column(
               children: [
                 Container(
+                  padding: EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children:[
@@ -301,6 +302,27 @@ class MyPage extends StatelessWidget {
                         ),
                       )
                     ]
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children:[
+                        Image.asset('images/my/level.png',width:Adapt.px(20.0),height:Adapt.px(20.0),fit: BoxFit.cover,),
+                        SizedBox(width:Adapt.px(8.0),),
+                        Text('我的等级',style: TextStyle(
+                            fontSize:Adapt.px(15.0),
+                            color: Color.fromRGBO(51, 51, 51, 1)
+                        ),),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            child: Icon(Icons.arrow_forward_ios,size: 15.0,),
+                          ),
+                        )
+                      ]
                   ),
                 )
               ],
