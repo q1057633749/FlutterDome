@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
  ThemeStyle(){
     return ThemeData(
 
-      primarySwatch: Colors.red,
+      primarySwatch: Colors.purple,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       hoverColor:Color.fromRGBO(255, 167, 100, 1),
       tabBarTheme: TabBarTheme(
