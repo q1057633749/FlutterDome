@@ -1,129 +1,86 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:video_player/video_player.dart';
 
-void main() {
-  runApp(LivePage());
-  SystemUiOverlayStyle systemUiOverlayStyle =
-  SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-  SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-}
-
-class Counter with ChangeNotifier {
-  int _count = 1;
-  Color _themeColor = Colors.blue;
-  int get value => _count;
-  Color get themeColor => _themeColor;
-  void addValue() {
-    _count++;
-    notifyListeners();
-  }
-
-  Color changeThemeColor() {
-    _themeColor = Colors.green;
-    notifyListeners();
-    return _themeColor;
-  }
-}
+const String VIDEO_URL = 'https://www.runoob.com/try/demo_source/mov_bbb.mp4';
 
 class LivePage extends StatelessWidget {
-  // This widget is the root of your application.
+  const LivePage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyHome(),
+      home: Scaffold(
+          appBar: AppBar(
+            title: Text('video_player'),
+          ),
+          body: HomeContent()),
     );
   }
 }
 
-class MyHome extends StatefulWidget {
-  @override
-  _MyHomeState createState() => _MyHomeState();
+class HomeContent extends StatefulWidget {
+  HomeContent({Key key}) : super(key: key);
+
+  _HomeContentState createState() => _HomeContentState();
 }
 
-class _MyHomeState extends State<MyHome> {
-  //Counter _counter = new Counter();
+class _HomeContentState extends State<HomeContent> {
+  VideoPlayerController _controller;
+  Future _initializeVideoPlayerFuture;
   @override
-  Widget build(BuildContext context) {
-    print('页面重绘了。。。。。。。。。。。');
-    return ChangeNotifierProvider(
-      create: (_) => Counter(),
-      child: Builder(builder: (BuildContext context) {
-        return Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(30),
-            child: AppBar(
-              title: Text(
-                  "Provider页面级别的演示:${Provider.of<Counter>(context).value}"),
-            ),
-          ),
-          body: Container(
-            width: double.infinity,
-            margin: EdgeInsets.all(10),
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Consumer(builder:
-                    (BuildContext context, Counter icounter, Widget child) {
-                  return Text(
-                    "Consumer包裹的文本+${icounter.value}", //没有用consumer包裹的不会自动更新,只有页面重绘时才被更新
-                    style: TextStyle(fontSize: 20),
-                  );
-                }),
-                SizedBox(
-                  height: 10,
-                ),
-                Consumer(
-                  builder:
-                      (BuildContext context, Counter counter, Widget child) {
-                    return RaisedButton(
-                      child: Icon(Icons.add),
-                      onPressed: counter.addValue,
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                DataWidget(), //抽离后的数据展示
-              ],
-            ),
-          ),
-        );
-      }),
-    );
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(VIDEO_URL);
+    _controller.setLooping(true);
+    _initializeVideoPlayerFuture = _controller.initialize();
   }
-}
 
-class DataWidget extends StatelessWidget {
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print("局部重绘");
-    return Container(
-      width: double.infinity,
-      color: Colors.green[100],
-      margin: EdgeInsets.all(10),
-      child: Column(
-        children: <Widget>[
-          Consumer(
-            builder: (BuildContext context, Counter counter, Widget child) {
-              return InkWell(
-                child: Text("抽离后的Widget,并用consumer获取值:${counter.value}"),
-                onTap: () => counter.addValue(),
+    return Column(
+      children: <Widget>[
+        FutureBuilder(
+          future: _initializeVideoPlayerFuture,
+          builder: (context, snapshot) {
+            print(snapshot.connectionState);
+            if (snapshot.hasError) print(snapshot.error);
+            if (snapshot.connectionState == ConnectionState.done) {
+              return AspectRatio(
+                // aspectRatio: 16 / 9,
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
               );
-            },
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+        SizedBox(height: 30),
+        RaisedButton(
+          child: Icon(
+            _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
           ),
-          SizedBox(
-            height: 10,
-          ),
-          ActionChip(
-              label: Text(
-                  "抽离后用Provider.of获取值:${Provider.of<Counter>(context).value}"),
-              onPressed: Provider.of<Counter>(context).addValue),
-        ],
-      ),
+          onPressed: () {
+            setState(() {
+              if (_controller.value.isPlaying) {
+                _controller.pause();
+              } else {
+                // If the video is paused, play it.
+                _controller.play();
+              }
+            });
+          },
+        )
+      ],
     );
   }
 }
