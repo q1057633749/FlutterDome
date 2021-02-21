@@ -13,18 +13,19 @@ class DynameicPage extends StatefulWidget {
 
 class DynameicPageState extends State<DynameicPage>
     with TickerProviderStateMixin {
+  //  顶部切换栏
   var isTabs = 0;
-
+  //  暂停按钮的倒计时
   Timer _timer;
-
+  // 配置倒计时的时间
   var timeout = const Duration(seconds: 2);
-
+  // 控制是否显示暂停/播放
   bool isShow = true;
-
+  // 顶部导航栏动画
   AnimationController _controller;
-
+  // 视频控件
   VideoPlayerController video_controller;
-
+  // 测试判断动态类型
   int dyType = 1;
 
   TextStyle onSelect = TextStyle(
