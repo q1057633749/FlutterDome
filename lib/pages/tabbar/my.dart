@@ -18,9 +18,7 @@ class MyPage extends StatelessWidget {
       child: Scaffold(
           backgroundColor: Color.fromRGBO(248, 248, 248, 1),
           body: SingleChildScrollView(
-            physics:ScrollPhysics(
-
-            ),
+            physics:ScrollPhysics(),
             padding: EdgeInsets.only(bottom:Adapt.px(10.0)),
             child: Column(
               children: [
