@@ -74,6 +74,7 @@ class _TabsPageState extends State<TabsPage> with TickerProviderStateMixin {
               children: _tabList,
               onPageChanged: onPageChanged,
               controller: pageController,
+              physics:NeverScrollableScrollPhysics() ,
             ),
             floatingActionButton: Container(
               width: 80.0,

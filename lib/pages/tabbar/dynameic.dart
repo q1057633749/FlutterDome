@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ class DynameicPage extends StatefulWidget {
 class DynameicPageState extends State<DynameicPage>
     with TickerProviderStateMixin {
   //  顶部切换栏
-  var isTabs = 0;
+  num isTabs = 0.0;
   //  暂停按钮的倒计时
   Timer _timer;
   // 配置倒计时的时间
@@ -28,6 +29,8 @@ class DynameicPageState extends State<DynameicPage>
   AnimationController _controller;
   // 视频控件
   VideoPlayerController video_controller;
+
+  PageController pageController;
   // 测试图片列表
   List imgUrls = [
     'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fcdn.duitang.com%2Fuploads%2Fitem%2F201506%2F08%2F20150608232319_dtysC.thumb.700_0.jpeg&refer=http%3A%2F%2Fcdn.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1616577500&t=c08fc8828afd5e29ce06e56f372034f7',
@@ -44,6 +47,21 @@ class DynameicPageState extends State<DynameicPage>
   int dyType = 0;
   // 测试动态列表
   List listType = [0, 1, 1, 0, 1];
+
+  final List<Widget> _pages = <Widget>[
+    new ConstrainedBox(
+      constraints: const BoxConstraints.expand(),
+      child: new FlutterLogo(textColor: Colors.blue),
+    ),
+    new ConstrainedBox(
+      constraints: const BoxConstraints.expand(),
+      child: new FlutterLogo(style: FlutterLogoStyle.stacked, textColor: Colors.red),
+    ),
+    new ConstrainedBox(
+      constraints: const BoxConstraints.expand(),
+      child: new FlutterLogo(style: FlutterLogoStyle.horizontal, textColor: Colors.green),
+    ),
+  ];
 
   TextStyle onSelect = TextStyle(
       fontSize: Adapt.px(20.0),
@@ -65,7 +83,7 @@ class DynameicPageState extends State<DynameicPage>
     // TODO: implement initState
     super.initState();
     _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     video_controller = VideoPlayerController.network(
         'https://www.runoob.com/try/demo_source/mov_bbb.mp4')
       ..initialize().then((_) {
@@ -73,6 +91,17 @@ class DynameicPageState extends State<DynameicPage>
         setState(() {});
       });
     video_controller.setLooping(true);
+
+    pageController = PageController();
+
+    pageController.addListener(() {
+      double offset = pageController.offset;
+      double page = pageController.page;
+      setState(() {
+        isTabs = page;
+      });
+      print(isTabs);
+    });
   }
 
   @override
@@ -185,18 +214,23 @@ class DynameicPageState extends State<DynameicPage>
                         ],
                       ),
                     ),
-                    Container(
-                      width: Adapt.px(355.0),
-                      alignment: Alignment.topCenter,
-                      child: ListView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.only(top: Adapt.px(11.0)),
-                        shrinkWrap: true,
-                        children: dynamicList(),
-                      ),
+                    Flexible(
+                      child:Container(
+                          width: double.infinity,
+                          alignment: Alignment.topCenter,
+                          child:listView()
+                      )
                     )
                   ],
                 )));
+  }
+
+  listView(){
+    return ListView(
+      padding: EdgeInsets.only(bottom: Adapt.px(12.0)),
+      shrinkWrap: true,
+      children: dynamicList(),
+    );
   }
 
   List<Widget> tabList(tabsArr) {
@@ -212,7 +246,7 @@ class DynameicPageState extends State<DynameicPage>
           },
           child: Text(
             tabsArr[i],
-            style: isTabs == i ? isSelect : onSelect,
+            style: isTabs <= i+0.5&&isTabs >i- 0.5 ? isSelect : onSelect,
           ),
         ),
       ));
@@ -334,7 +368,8 @@ class DynameicPageState extends State<DynameicPage>
     List<Widget> list = new List();
     for(var i = 0;i< listType.length;i++){
           list.add(Container(
-            padding: EdgeInsets.fromLTRB(13.0, 17.0, 13.0, 12.0),
+            margin: EdgeInsets.fromLTRB(Adapt.px(10.0), Adapt.px(11.0), Adapt.px(10.0),0),
+            padding: EdgeInsets.fromLTRB(Adapt.px(13.0), Adapt.px(17.0), Adapt.px(13.0), Adapt.px(12.0)),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8), color: Colors.white),
             child: Column(
@@ -543,7 +578,6 @@ class _DetailPage extends StatelessWidget {
   _DetailPage(this.ImgUrl);
   @override
   Widget build(BuildContext context) {
-    print(ImgUrl);
     return Scaffold(
       appBar: AppBar(),
       body: Container(

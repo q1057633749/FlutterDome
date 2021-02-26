@@ -1,86 +1,156 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:video_player/video_player.dart';
 
-const String VIDEO_URL = 'https://www.runoob.com/try/demo_source/mov_bbb.mp4';
 
 class LivePage extends StatelessWidget {
-  const LivePage({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text('video_player'),
-          ),
-          body: HomeContent()),
+    return new MaterialApp(
+      title: 'Flutter Demo',
+      home: new MyHomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class HomeContent extends StatefulWidget {
-  HomeContent({Key key}) : super(key: key);
+/// An indicator showing the currently selected page of a PageController
+class DotsIndicator extends AnimatedWidget {
+  DotsIndicator({
+    this.controller,
+    this.itemCount,
+    this.onPageSelected,
+    this.color: Colors.white,
+  }) : super(listenable: controller);
 
-  _HomeContentState createState() => _HomeContentState();
+  /// The PageController that this DotsIndicator is representing.
+  final PageController controller;
+
+  /// The number of items managed by the PageController
+  final int itemCount;
+
+  /// Called when a dot is tapped
+  final ValueChanged<int> onPageSelected;
+
+  /// The color of the dots.
+  ///
+  /// Defaults to `Colors.white`.
+  final Color color;
+
+  // The base size of the dots
+  static const double _kDotSize = 8.0;
+
+  // The increase in the size of the selected dot
+  static const double _kMaxZoom = 2.0;
+
+  // The distance between the center of each dot
+  static const double _kDotSpacing = 25.0;
+
+  Widget _buildDot(int index) {
+//    print(controller.page);
+//    print(controller.initialPage);
+    double selectedness = Curves.easeOut.transform(
+      max(
+        0.0,
+        1.0 - ((controller.page ?? controller.initialPage) - index).abs(),
+      ),
+    );
+//    print(selectedness);
+    double zoom = 1.0 + (_kMaxZoom - 1.0) * selectedness;
+    return new Container(
+      width: _kDotSpacing,
+      child: new Center(
+        child: new Material(
+          color: color,
+          type: MaterialType.circle,
+          child: new Container(
+            width: _kDotSize * zoom,
+            height: _kDotSize * zoom,
+            child: new InkWell(
+              onTap: () => onPageSelected(index),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget build(BuildContext context) {
+    return new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: new List<Widget>.generate(itemCount, _buildDot),
+    );
+  }
 }
 
-class _HomeContentState extends State<HomeContent> {
-  VideoPlayerController _controller;
-  Future _initializeVideoPlayerFuture;
+class MyHomePage extends StatefulWidget {
   @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.network(VIDEO_URL);
-    _controller.setLooping(true);
-    _initializeVideoPlayerFuture = _controller.initialize();
-  }
+  State createState() => new MyHomePageState();
+}
 
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
+class MyHomePageState extends State<MyHomePage> {
+
+  final _controller = new PageController();
+
+  static const _kDuration = const Duration(milliseconds: 300);
+
+  static const _kCurve = Curves.ease;
+
+  final _kArrowColor = Colors.black.withOpacity(0.8);
+
+  final List<Widget> _pages = <Widget>[
+    new ConstrainedBox(
+      constraints: const BoxConstraints.expand(),
+      child: new FlutterLogo(textColor: Colors.blue),
+    ),
+    new ConstrainedBox(
+      constraints: const BoxConstraints.expand(),
+      child: new FlutterLogo(style: FlutterLogoStyle.stacked, textColor: Colors.red),
+    ),
+    new ConstrainedBox(
+      constraints: const BoxConstraints.expand(),
+      child: new FlutterLogo(style: FlutterLogoStyle.horizontal, textColor: Colors.green),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        FutureBuilder(
-          future: _initializeVideoPlayerFuture,
-          builder: (context, snapshot) {
-            print(snapshot.connectionState);
-            if (snapshot.hasError) print(snapshot.error);
-            if (snapshot.connectionState == ConnectionState.done) {
-              return AspectRatio(
-                // aspectRatio: 16 / 9,
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+    return new Scaffold(
+      body: new IconTheme(
+        data: new IconThemeData(color: _kArrowColor),
+        child: new Stack(
+          children: <Widget>[
+            new PageView.builder(
+              physics: new AlwaysScrollableScrollPhysics(),
+              controller: _controller,
+              itemBuilder: (BuildContext context, int index) {
+                return _pages[index % _pages.length];
+              },
+            ),
+            new Positioned(
+              top: 300.0,
+              left: 0.0,
+              right: 0.0,
+              child: new Container(
+                color: Colors.grey[800].withOpacity(0.5),
+                padding: const EdgeInsets.all(20.0),
+                child: new Center(
+                  child: new DotsIndicator(
+                    controller: _controller,
+                    itemCount: _pages.length,
+                    onPageSelected: (int page) {
+                      _controller.animateToPage(
+                        page,
+                        duration: _kDuration,
+                        curve: _kCurve,
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: 30),
-        RaisedButton(
-          child: Icon(
-            _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-          ),
-          onPressed: () {
-            setState(() {
-              if (_controller.value.isPlaying) {
-                _controller.pause();
-              } else {
-                // If the video is paused, play it.
-                _controller.play();
-              }
-            });
-          },
-        )
-      ],
+      ),
     );
   }
 }
