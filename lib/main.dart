@@ -16,27 +16,25 @@ void main() {
   ], child: MyApp()));
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  MyAppState createState() => new MyAppState();
-}
 
-class MyAppState extends State<MyApp> {
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.android) {
-      // android 平台
-      SystemUiOverlayStyle _style =
-          SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-      SystemChrome.setSystemUIOverlayStyle(_style);
-    }
-    readBoolData('isLoginState').then((value) => {
-      if(value){
-        context.read<UserData>().setLogin()
-      }
-    });
-
-
+if (Theme.of(context).platform == TargetPlatform.android) {
+// android 平台
+SystemUiOverlayStyle _style =
+SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+SystemChrome.setSystemUIOverlayStyle(_style);
+}
+  readBoolData('isLoginState').then((value) => {
+    print(value),
+    print('123111'),
+    if(value){
+      context.read<UserData>().setLogin()
+    },
+    print(context.read<UserData>().isLogin),
+  });
     return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
@@ -44,30 +42,60 @@ class MyAppState extends State<MyApp> {
         onGenerateRoute: onGenerateRoute,
         home: context.watch<UserData>().isLogin ? TabsPage():LoginPage());
   }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(MyApp oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-  }
 }
+
+//class MyApp extends StatefulWidget {
+//  @override
+//  MyAppState createState() => new MyAppState();
+//}
+//
+//class MyAppState extends State<MyApp> {
+//  @override
+//  Widget build(BuildContext context) {
+//    if (Theme.of(context).platform == TargetPlatform.android) {
+//      // android 平台
+//      SystemUiOverlayStyle _style =
+//      SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+//      SystemChrome.setSystemUIOverlayStyle(_style);
+//    }
+//    readBoolData('isLoginState').then((value) => {
+//      if(value){
+//        context.read<UserData>().setLogin()
+//      }
+//    });
+//
+//
+//    return MaterialApp(
+//        title: 'Flutter Demo',
+//        debugShowCheckedModeBanner: false,
+//        theme: ThemeStyle(),
+//        onGenerateRoute: onGenerateRoute,
+//        home: context.watch<UserData>().isLogin ? TabsPage():LoginPage());
+//  }
+//
+//  @override
+//  void initState() {
+//    // TODO: implement initState
+//    super.initState();
+//  }
+//
+//  @override
+//  void dispose() {
+//    // TODO: implement dispose
+//    super.dispose();
+//  }
+//
+//  @override
+//  void didUpdateWidget(MyApp oldWidget) {
+//    // TODO: implement didUpdateWidget
+//    super.didUpdateWidget(oldWidget);
+//  }
+//
+//  @override
+//  void didChangeDependencies() {
+//    // TODO: implement didChangeDependencies
+//    super.didChangeDependencies();
+//  }
+//}
 
 

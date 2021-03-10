@@ -12,7 +12,6 @@ class UserData extends ChangeNotifier{
 
   void setLogin(){
     _isLogin = true;
-    print(isLogin);
   }
 
   void setUserInfo(userMap) {
